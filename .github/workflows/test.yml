@@ -1,0 +1,31 @@
+name: Check EKS Updates
+
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: '0 0 * * *'
+
+env:
+  CURRENT_VERSION=1.24
+
+jobs:
+  check-version:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Fetch Latest EKS Version
+      id: eks-version
+      uses: ammarlakis/action-eks-latest-version@v1
+
+    - name: Compare EKS Version to 1.24
+      run: |
+        if [ "$CURRENT_VERSION" = "${{ steps.eks-version.outputs.latest }}" ]; then
+          echo "EKS is Up-to-date."
+        else
+          echo "A new update is available for EKS."
+        fi
