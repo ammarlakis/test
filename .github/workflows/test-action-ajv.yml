@@ -11,9 +11,13 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Fetch Latest EKS Version
+    - name: Validate
       id: validation
       uses: ammarlakis/action-ajv@master
       with:
         data: data.yml
         schemas: schema.yml
+    - name: Show outputs
+      run: |
+        echo ${{ steps.validation.outputs.valid }}
+        echo ${{ steps.validation.outputs.errors }}
