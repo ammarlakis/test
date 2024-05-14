@@ -1,0 +1,19 @@
+name: Test Schema validation
+
+on:
+  workflow_dispatch:
+
+jobs:
+  validate-schema:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Fetch Latest EKS Version
+      id: validation
+      uses: ammarlakis/action-ajv@master
+      with:
+        data: data.yml
+        schemas: schema.yml
